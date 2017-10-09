@@ -1,0 +1,29 @@
+{
+  "name": "cgeo",
+  "version": "0.0.1",
+  "description": "Geographic data types",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "prepublish": "tsc -p src",
+    "test": "tsc -p test && node test/test.js"
+  },
+  "author": "Juha Järvi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charto/cgeo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charto/cgeo/issues"
+  },
+  "homepage": "https://github.com/charto/cgeo#readme",
+  "keywords": [
+    "gis"
+  ],
+  "devDependencies": {
+    "@types/node": "^8.0.29",
+    "typescript": "^2.5.3"
+  }
+}
