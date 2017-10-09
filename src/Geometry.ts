@@ -1,11 +1,9 @@
 // This file is part of cgeo, copyright (c) 2017 BusFaster Ltd.
 // Released under the MIT license, see LICENSE.
 
-export const typeList: ({ new(): Geometry } | null)[] = [];
-
 export function registerType(Type: { new(): Geometry }, kind: GeometryKind) {
 	Type.prototype.kind = kind;
-	typeList[kind] = Type;
+	Geometry.typeList[kind] = Type;
 }
 
 export enum GeometryKind {
@@ -29,6 +27,7 @@ export enum GeometryKind {
 export abstract class Geometry {
 
 	kind: GeometryKind;
+	static typeList: ({ new(): Geometry } | null)[] = [];
 
 }
 
