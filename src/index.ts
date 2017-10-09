@@ -17,18 +17,32 @@ export { MultiSurface } from './MultiSurface';
 export { Curve } from './Curve';
 export { Surface } from './Surface';
 
+export type Constructor<Type> = new(...args: any[]) => Type;
+
 /** Decorator for mixing class prototype into superclass. */
 
-export function mixin<Super>(Super?: new(...args: any[]) => Super) {
-	function inner<Class>(Class: new(...args: any[]) => Class) {
-		Super = Super || Object.getPrototypeOf(Class) as new(...args: any[]) => Super;
+export function mixin<Super>(Super?: Constructor<Super>) {
+	function inner<Class>(Class: Constructor<Class>) {
+		Super = Super || Object.getPrototypeOf(Class) as Constructor<Super>;
 
+		// Mix in prototype members.
 		for(let key of Object.keys(Class.prototype)) {
 			Super.prototype[key] = Class.prototype[key];
+		}
+
+		// Mix in static members.
+		for(let key of Object.keys(Class)) {
+			(Super as { [ key: string ]: any })[key] = (Class as { [ key: string ]: any })[key];
 		}
 	}
 
 	return(inner);
+}
+
+/** Transform superclass in extends class to allow safely calling super(). */
+
+export function mix<Super>(Super: Constructor<Super>) {
+	return(Object.getPrototypeOf(Super) as Constructor<Super>);
 }
 
 /** Decorator for defining a prototype property. */
