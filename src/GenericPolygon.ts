@@ -3,18 +3,19 @@
 
 import { Geometry } from './Geometry';
 import { GeometryCollection } from './GeometryCollection';
-import { Curve } from './Curve';
+import { LineString } from './LineString';
+import { Curve, StringSpec } from './Curve';
 
-export interface GenericPolygon<MemberType extends Curve> extends GeometryCollection<MemberType> {}
+export interface GenericPolygon<MemberType extends Curve> extends GeometryCollection<MemberType | LineString> {}
 
-export function definePolygonClass<SpecType, MemberType extends Curve>(
+export function definePolygonClass<MemberType extends Curve, SpecType>(
 	Member: { new(spec?: SpecType): MemberType }
-): { new(spec?: ( MemberType | SpecType | null | undefined )[]): GenericPolygon<MemberType> } {
+): { new(spec?: ( MemberType | LineString | StringSpec | SpecType | null | undefined )[]): GenericPolygon<MemberType> } {
 
-	type RingSpec = MemberType | SpecType | null | undefined;
+	type RingSpec = MemberType | LineString | SpecType | null | undefined;
 
 	// GeometryCollection compatibility allows calling methods from MultiCurve.
-	class GenericPolygon extends Geometry implements GeometryCollection<MemberType> {
+	class GenericPolygon extends Geometry implements GeometryCollection<MemberType | LineString> {
 
 		constructor(ringList: RingSpec[] = []) {
 			super();
@@ -28,8 +29,10 @@ export function definePolygonClass<SpecType, MemberType extends Curve>(
 			for(let num = 0; num < count; ++num) {
 				const ring = ringList[num];
 
-				if(ring instanceof Member) {
+				if(ring instanceof Curve) {
 					this.childList[num] = ring;
+				} else if(ring instanceof Array && typeof(ring[0]) == 'number') {
+					this.childList[num] = new LineString(ring);
 				} else if(ring) {
 					this.childList[num] = new Member(ring);
 				}
@@ -38,7 +41,7 @@ export function definePolygonClass<SpecType, MemberType extends Curve>(
 
 		addChild(child: MemberType) { this.childList.push(child); }
 
-		childList: ( MemberType | null | undefined )[] = [];
+		childList: ( MemberType | LineString | null | undefined )[] = [];
 
 	}
 

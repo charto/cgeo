@@ -3,11 +3,12 @@
 
 import { GeometryKind, registerType } from './Geometry';
 import { Curve, StringSpec } from './Curve';
+import { LineString } from './LineString';
 import { CompoundCurve } from './CompoundCurve';
 import { GenericPolygon, definePolygonClass } from './GenericPolygon';
 
-export type CurvePolygonRingSpec = CompoundCurve | StringSpec | null | undefined;
-export type CurvePolygon = GenericPolygon<CompoundCurve>;
+export type CurvePolygonRingSpec = LineString | CompoundCurve | StringSpec | null | undefined;
+export type CurvePolygon = GenericPolygon<LineString | CompoundCurve>;
 export const CurvePolygon = definePolygonClass(CompoundCurve);
 
 registerType(CurvePolygon, GeometryKind.curvePolygon);
