@@ -6,7 +6,7 @@ import { GeometryCollection } from './GeometryCollection';
 import { LineString } from './LineString';
 import { Curve, StringSpec } from './Curve';
 
-export interface GenericPolygon<MemberType extends Curve> extends GeometryCollection<MemberType | LineString> {}
+export interface GenericPolygon<MemberType extends Curve> extends GeometryCollection<MemberType | LineString | null | undefined> {}
 
 export function definePolygonClass<MemberType extends Curve, SpecType>(
 	Member: { new(spec?: SpecType): MemberType }
@@ -15,7 +15,7 @@ export function definePolygonClass<MemberType extends Curve, SpecType>(
 	type RingSpec = MemberType | LineString | SpecType | null | undefined;
 
 	// GeometryCollection compatibility allows calling methods from MultiCurve.
-	class GenericPolygon extends Geometry implements GeometryCollection<MemberType | LineString> {
+	class GenericPolygon extends Geometry implements GeometryCollection<MemberType | LineString | null | undefined> {
 
 		constructor(ringList: RingSpec[] = []) {
 			super();

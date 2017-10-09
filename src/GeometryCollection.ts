@@ -3,9 +3,9 @@
 
 import { Geometry, GeometryKind, registerType } from './Geometry';
 
-export class GeometryCollection<Member extends Geometry = Geometry> extends Geometry {
+export class GeometryCollection<Member extends (Geometry | null | undefined) = Geometry> extends Geometry {
 
-	constructor(public childList: (Member | null | undefined)[] = []) { super(); }
+	constructor(public childList: Member[] = []) { super(); }
 
 	addChild(child: Member) { this.childList.push(child); }
 
