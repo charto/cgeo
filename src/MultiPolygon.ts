@@ -4,22 +4,22 @@
 import { Geometry, GeometryKind, registerType } from './Geometry';
 import { GeometryCollection } from './GeometryCollection';
 import { MultiSurface } from './MultiSurface';
-import { Polygon, PolygonRingSpec } from './Polygon';
+import { Polygon, PolygonSpec } from './Polygon';
 
 export class MultiPolygon extends MultiSurface<Polygon> {
 
-	constructor(childList: ( Polygon | PolygonRingSpec[] )[] = []) {
+	constructor(specList: ( Polygon | PolygonSpec )[] = []) {
 		super();
 
-		this.init(childList);
+		this.init(specList);
 	}
 
-	init(childList: ( Polygon | PolygonRingSpec[] )[]) {
-		for(let child of childList) {
-			if(child instanceof Polygon) {
-				this.childList.push(child);
+	init(specList: ( Polygon | PolygonSpec )[]) {
+		for(let spec of specList) {
+			if(spec instanceof Polygon) {
+				this.childList.push(spec);
 			} else {
-				this.childList.push(new Polygon(child));
+				this.childList.push(new Polygon(spec));
 			}
 		}
 	}

@@ -3,9 +3,20 @@
 
 import { Geometry, GeometryKind, registerType } from './Geometry';
 import { GeometryCollection} from './GeometryCollection';
-import { MultiCurve } from './MultiCurve';
+import { CurveSpec } from './Curve';
+import { MultiCurve, initCurves } from './MultiCurve';
 import { LineString } from './LineString';
 
-export class MultiLineString extends MultiCurve<LineString> {}
+export type MultiLineStringSpec = (number | CurveSpec | LineString)[];
+
+export class MultiLineString extends MultiCurve<LineString> {
+
+	constructor(childList: MultiLineStringSpec = []) {
+		super();
+
+		initCurves(childList, this.childList, false, false);
+	}
+
+}
 
 registerType(MultiLineString, GeometryKind.multiLineString);

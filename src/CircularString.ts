@@ -2,11 +2,11 @@
 // Released under the MIT license, see LICENSE.
 
 import { GeometryKind, registerType } from './Geometry';
-import { Curve, StringSpec } from './Curve';
+import { Curve, CurveSpec } from './Curve';
 
 export class CircularString extends Curve {
 
-	constructor(public posList: StringSpec = []) { super(); }
+	constructor(public posList: CurveSpec = []) { super(); }
 
 }
 

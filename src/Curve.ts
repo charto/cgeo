@@ -3,7 +3,7 @@
 
 import { Geometry, GeometryKind } from './Geometry';
 
-export type StringSpec = number[];
+export type CurveSpec = number[];
 
 export abstract class Curve extends Geometry {}
 
