@@ -6,9 +6,11 @@ import { GeometryCollection } from './GeometryCollection';
 import { Curve, StringSpec } from './Curve';
 import { MultiCurve } from './MultiCurve';
 
+export type CompoundCurveSpec = ( Curve | StringSpec )[];
+
 export class CompoundCurve extends Curve implements GeometryCollection<Curve> {
 
-	constructor(childList: ( Curve | StringSpec )[] = []) {
+	constructor(childList: CompoundCurveSpec = []) {
 		super();
 
 		return(MultiCurve.prototype.init.call(this, childList));
