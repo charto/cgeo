@@ -3,28 +3,31 @@
 
 import { Geometry, GeometryKind, registerType } from './Geometry';
 import { GeometryCollection } from './GeometryCollection';
-import { Point } from './Point';
+import { Point, PointSpec, PointListSpec } from './Point';
 
 export class MultiPoint extends GeometryCollection<Point> {
 
-	constructor(childList: Point[] | number[] = []) {
+	constructor(childList: PointSpec[] | PointListSpec = []) {
 		super();
 
 		this.init(childList);
 	}
 
-	init(childList: Point[] | number[] = []) {
-		const count = childList.length;
-
-		if(count && childList[0] instanceof Point) {
-			this.childList = childList as Point[];
+	init(childList: PointSpec[] | PointListSpec = []) {
+		if(childList instanceof Array) {
+			for(let child of childList) {
+				if(child instanceof Point) this.addChild(child);
+				else this.addChild(new Point(child));
+			}
 		} else {
-			this.childList = [];
-			for(let num = 0; num < count; num += 2) {
-				this.addChild(new Point(
-					childList[num] as number,
-					childList[num + 1] as number
-				));
+			const x = childList.x || [];
+			const y = childList.y || [];
+			const z = childList.z || [];
+			const m = childList.m || [];
+			const count = x.length;
+
+			for(let num = 0; num < count; ++num) {
+				this.addChild(new Point(x[num], y[num], z[num], m[num]));
 			}
 		}
 	}

@@ -2,11 +2,22 @@
 // Released under the MIT license, see LICENSE.
 
 import { GeometryKind, registerType } from './Geometry';
+import { PointSpec, PointListSpec } from './Point';
 import { Curve, CurveSpec } from './Curve';
+import { LineString } from './LineString';
 
 export class CircularString extends Curve {
 
-	constructor(public posList: CurveSpec = []) { super(); }
+	constructor(spec: PointSpec[] | PointListSpec = []) {
+		super();
+
+		LineString.prototype.init.call(this, spec);
+	}
+
+	x: number[];
+	y: number[];
+	z?: number[];
+	m?: number[];
 
 }
 

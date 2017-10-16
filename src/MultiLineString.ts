@@ -7,14 +7,12 @@ import { CurveSpec } from './Curve';
 import { MultiCurve, initCurves } from './MultiCurve';
 import { LineString } from './LineString';
 
-export type MultiLineStringSpec = (number | CurveSpec | LineString)[];
-
 export class MultiLineString extends MultiCurve<LineString> {
 
-	constructor(childList: MultiLineStringSpec = []) {
+	constructor(childList: CurveSpec | ( CurveSpec | LineString )[] = []) {
 		super();
 
-		initCurves(childList, this.childList, false, false);
+		initCurves(this.childList, childList, false, false);
 	}
 
 }

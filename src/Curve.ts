@@ -2,8 +2,9 @@
 // Released under the MIT license, see LICENSE.
 
 import { Geometry, GeometryKind } from './Geometry';
+import { PointSpec, PointListSpec } from './Point';
 
-export type CurveSpec = number[];
+export type CurveSpec = Array<PointSpec> | PointListSpec;
 
 export abstract class Curve extends Geometry {}
 

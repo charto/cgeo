@@ -3,18 +3,16 @@
 
 import { Geometry, GeometryKind, registerType } from './Geometry';
 import { GeometryCollection } from './GeometryCollection';
-import { Curve } from './Curve';
+import { Curve, CurveSpec } from './Curve';
 import { MultiCurveSpec, initCurves } from './MultiCurve';
-
-export type CurvePolygonSpec = (number | MultiCurveSpec | Curve | null | undefined)[];
 
 // GeometryCollection compatibility allows calling methods from MultiCurve.
 export class CurvePolygon extends Geometry implements GeometryCollection<Curve | null | undefined> {
 
-	constructor(ringList: CurvePolygonSpec = []) {
+	constructor(ringList: CurveSpec | (CurveSpec | MultiCurveSpec | Curve | null | undefined)[] = []) {
 		super();
 
-		initCurves(ringList, this.childList, true);
+		initCurves(this.childList, ringList, true);
 	}
 
 	addChild(child: Curve) { this.childList.push(child); }

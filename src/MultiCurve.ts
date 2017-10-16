@@ -4,20 +4,23 @@
 import { GeometryKind, registerType } from './Geometry';
 import { GeometryCollection } from './GeometryCollection';
 import { Curve, CurveSpec } from './Curve';
+import { PointSpec, PointListSpec } from './Point';
 import { CompoundCurve } from './CompoundCurve';
 import { LineString } from './LineString';
 
-export interface MultiCurveSpec extends Array<number | MultiCurveSpec | Curve> {}
+export interface MultiCurveSpec extends Array<CurveSpec | MultiCurveSpec | Curve> {}
 
 export function initCurves<Member extends Curve | null | undefined>(
-	specList: (number | MultiCurveSpec | Curve | null | undefined)[],
 	childList: Member[],
+	specList: CurveSpec | (CurveSpec | MultiCurveSpec | Member)[],
 	allowNull?: boolean,
 	allowCompound = true
 ) {
 	const msg = 'Geometry cannot hold arbitrary curves';
 
-	if(typeof(specList[0]) == 'number') {
+	if(!(specList instanceof Array)) specList = [ specList ];
+
+	if(typeof((specList as PointSpec[])[0]) == 'object' && typeof((specList as PointSpec[])[0].x) == 'number') {
 		childList.push(new LineString(specList as CurveSpec) as Curve as Member);
 		return;
 	}
@@ -26,7 +29,7 @@ export function initCurves<Member extends Curve | null | undefined>(
 		if(spec instanceof Curve) {
 			if(!(allowCompound || spec instanceof LineString)) throw(new Error(msg));
 			childList.push(spec as Curve as Member);
-		} else if(spec instanceof Array && typeof(spec[0]) == 'number') {
+		} else if((spec as PointListSpec).x instanceof Array || (typeof((spec as PointSpec[])[0]) == 'object' && typeof((spec as PointSpec[])[0].x) == 'number')) {
 			childList.push(new LineString(spec as CurveSpec) as Curve as Member);
 		} else if(spec) {
 			if(!allowCompound) throw(new Error(msg));
@@ -39,10 +42,10 @@ export function initCurves<Member extends Curve | null | undefined>(
 
 export class MultiCurve<Member extends Curve = Curve> extends GeometryCollection<Member> {
 
-	constructor(childList: MultiCurveSpec = []) {
+	constructor(childList: CurveSpec | MultiCurveSpec = []) {
 		super();
 
-		initCurves(childList, this.childList);
+		initCurves(this.childList, childList);
 	}
 
 }

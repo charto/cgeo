@@ -7,7 +7,7 @@ import { LineString } from './LineString';
 import { CurveSpec } from './Curve';
 import { initCurves } from './MultiCurve';
 
-export type PolygonSpec = (number | CurveSpec | LineString | null | undefined)[];
+export type PolygonSpec = CurveSpec | (CurveSpec | LineString | null | undefined)[];
 
 // GeometryCollection compatibility allows calling methods from MultiCurve.
 export class Polygon extends Geometry implements GeometryCollection<LineString | null | undefined> {
@@ -15,7 +15,7 @@ export class Polygon extends Geometry implements GeometryCollection<LineString |
 	constructor(ringList: PolygonSpec = []) {
 		super();
 
-		initCurves(ringList, this.childList, true, false);
+		initCurves(this.childList, ringList, true, false);
 	}
 
 	addChild(child: LineString) { this.childList.push(child); }

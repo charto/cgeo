@@ -3,14 +3,40 @@
 
 import { Geometry, GeometryKind, registerType } from './Geometry';
 
-export class Point extends Geometry {
+export interface PointSpec {
+	x?: number;
+	y?: number;
+	z?: number;
+	m?: number;
+}
 
-	constructor(x = 0, y = 0) {
+export interface PointListSpec {
+	x?: number[];
+	y?: number[];
+	z?: number[];
+	m?: number[];
+}
+
+export class Point extends Geometry implements PointSpec {
+
+	constructor(x?: number | PointSpec, y?: number, z?: number, m?: number) {
 		super();
-		this.pos = [ x, y ];
+
+		if(typeof(x) == 'object') {
+			({ y, z, m } = x);
+			x = x.x;
+		}
+
+		this.x = x || 0;
+		this.y = y || 0;
+		if(z !== void 0) this.z = z;
+		if(m !== void 0) this.m = m;
 	}
 
-	pos: number[];
+	x: number;
+	y: number;
+	z?: number;
+	m?: number;
 
 }
 

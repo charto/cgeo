@@ -34,6 +34,31 @@ The supported data types are as follows (nesting indicates inheritance):
     - MultiSurface
       - MultiPolygon
 
+Usage
+=====
+
+Point
+-----
+
+An object with 4 properties:
+
+- `x` (default 0)
+- `y` (default 0)
+- `z` (optional)
+- `m` (optional)
+
+It can be initialized in multiple ways:
+
+```TypeScript
+let a = new Point(1, 2);
+let b = new Point(1, 2, 3, 4);
+let c = new Point({ x: 1, y: 2, z: 3, m: 4 });
+let d = new Point(b);
+```
+
+The above initialize `b`, `c` and `d` with the same contents.
+`a` only has fields `x` and `y`.
+
 License
 =======
 

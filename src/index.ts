@@ -2,7 +2,7 @@
 // Released under the MIT license, see LICENSE.
 
 export { Geometry, GeometryKind } from './Geometry';
-export { Point } from './Point';
+export { Point, PointSpec, PointListSpec } from './Point';
 export { LineString } from './LineString';
 export { Polygon } from './Polygon';
 export { MultiPoint } from './MultiPoint';
@@ -14,7 +14,7 @@ export { CompoundCurve } from './CompoundCurve';
 export { CurvePolygon } from './CurvePolygon';
 export { MultiCurve } from './MultiCurve';
 export { MultiSurface } from './MultiSurface';
-export { Curve } from './Curve';
+export { Curve, CurveSpec } from './Curve';
 export { Surface } from './Surface';
 
 export type Constructor<Type> = new(...args: any[]) => Type;
