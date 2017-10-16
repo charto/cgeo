@@ -5,9 +5,27 @@ import { Geometry, GeometryKind, registerType } from './Geometry';
 
 export class GeometryCollection<Member extends (Geometry | null | undefined) = Geometry> extends Geometry {
 
-	constructor(public childList: Member[] = []) { super(); }
+	constructor(childList?: Member[]) {
+		super();
 
-	addChild(child: Member) { this.childList.push(child); }
+		for(let child of (childList || [])) this.addChild(child);
+	}
+
+	addChild(child: Member) {
+		if(child) {
+			if(child.hasZ()) this.flagZ = true;
+			if(child.hasM()) this.flagM = true;
+		}
+		this.childList.push(child);
+	}
+
+	childList: Member[] = [];
+
+	hasZ() { return(this.flagZ == true); }
+	hasM() { return(this.flagM == true); }
+
+	flagZ?: boolean;
+	flagM?: boolean;
 
 }
 

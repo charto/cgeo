@@ -12,7 +12,7 @@ export class CurvePolygon extends Geometry implements GeometryCollection<Curve |
 	constructor(ringList: CurveSpec | (CurveSpec | MultiCurveSpec | Curve | null | undefined)[] = []) {
 		super();
 
-		initCurves(this.childList, ringList, true);
+		initCurves(this, ringList, true);
 	}
 
 	addChild(child: Curve) { this.childList.push(child); }

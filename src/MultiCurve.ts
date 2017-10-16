@@ -11,7 +11,7 @@ import { LineString } from './LineString';
 export interface MultiCurveSpec extends Array<CurveSpec | MultiCurveSpec | Curve> {}
 
 export function initCurves<Member extends Curve | null | undefined>(
-	childList: Member[],
+	target: GeometryCollection<Member>,
 	specList: CurveSpec | (CurveSpec | MultiCurveSpec | Member)[],
 	allowNull?: boolean,
 	allowCompound = true
@@ -21,21 +21,21 @@ export function initCurves<Member extends Curve | null | undefined>(
 	if(!(specList instanceof Array)) specList = [ specList ];
 
 	if(typeof((specList as PointSpec[])[0]) == 'object' && typeof((specList as PointSpec[])[0].x) == 'number') {
-		childList.push(new LineString(specList as CurveSpec) as Curve as Member);
+		target.addChild(new LineString(specList as CurveSpec) as Curve as Member);
 		return;
 	}
 
 	for(let spec of specList) {
 		if(spec instanceof Curve) {
 			if(!(allowCompound || spec instanceof LineString)) throw(new Error(msg));
-			childList.push(spec as Curve as Member);
+			target.addChild(spec as Curve as Member);
 		} else if((spec as PointListSpec).x instanceof Array || (typeof((spec as PointSpec[])[0]) == 'object' && typeof((spec as PointSpec[])[0].x) == 'number')) {
-			childList.push(new LineString(spec as CurveSpec) as Curve as Member);
+			target.addChild(new LineString(spec as CurveSpec) as Curve as Member);
 		} else if(spec) {
 			if(!allowCompound) throw(new Error(msg));
-			childList.push(new CompoundCurve(spec as MultiCurveSpec) as Curve as Member);
+			target.addChild(new CompoundCurve(spec as MultiCurveSpec) as Curve as Member);
 		} else if(allowNull) {
-			childList.push(spec as any);
+			target.addChild(spec as any);
 		}
         }
 }
@@ -45,7 +45,7 @@ export class MultiCurve<Member extends Curve = Curve> extends GeometryCollection
 	constructor(childList: CurveSpec | MultiCurveSpec = []) {
 		super();
 
-		initCurves(this.childList, childList);
+		initCurves(this, childList);
 	}
 
 }

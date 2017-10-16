@@ -11,7 +11,7 @@ export class CompoundCurve extends Curve implements GeometryCollection<Curve> {
 	constructor(childList: MultiCurveSpec = []) {
 		super();
 
-		initCurves(this.childList, childList);
+		initCurves(this, childList);
 	}
 
 	addChild(child: Curve) { this.childList.push(child); }

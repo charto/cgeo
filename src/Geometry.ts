@@ -26,6 +26,9 @@ export enum GeometryKind {
 
 export abstract class Geometry {
 
+	hasZ() { return(false); }
+	hasM() { return(false); }
+
 	kind: GeometryKind;
 	static typeList: ({ new(): Geometry } | null)[] = [];
 

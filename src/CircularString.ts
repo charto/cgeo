@@ -14,6 +14,9 @@ export class CircularString extends Curve {
 		LineString.prototype.init.call(this, spec);
 	}
 
+	hasZ() { return(this.z !== void 0); }
+	hasM() { return(this.m !== void 0); }
+
 	x: number[];
 	y: number[];
 	z?: number[];

@@ -36,6 +36,9 @@ export class LineString extends Curve {
 		}
 	}
 
+	hasZ() { return(this.z !== void 0); }
+	hasM() { return(this.m !== void 0); }
+
 	x: number[];
 	y: number[];
 	z?: number[];

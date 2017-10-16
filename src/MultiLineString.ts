@@ -12,7 +12,7 @@ export class MultiLineString extends MultiCurve<LineString> {
 	constructor(childList: CurveSpec | ( CurveSpec | LineString )[] = []) {
 		super();
 
-		initCurves(this.childList, childList, false, false);
+		initCurves(this, childList, false, false);
 	}
 
 }

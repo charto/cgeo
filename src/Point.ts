@@ -33,6 +33,9 @@ export class Point extends Geometry implements PointSpec {
 		if(m !== void 0) this.m = m;
 	}
 
+	hasZ() { return(this.z !== void 0); }
+	hasM() { return(this.m !== void 0); }
+
 	x: number;
 	y: number;
 	z?: number;

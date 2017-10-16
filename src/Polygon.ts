@@ -15,7 +15,7 @@ export class Polygon extends Geometry implements GeometryCollection<LineString |
 	constructor(ringList: PolygonSpec = []) {
 		super();
 
-		initCurves(this.childList, ringList, true, false);
+		initCurves(this, ringList, true, false);
 	}
 
 	addChild(child: LineString) { this.childList.push(child); }
