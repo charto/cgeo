@@ -22,7 +22,7 @@ export class Point extends Geometry implements PointSpec {
 	constructor(x?: number | PointSpec, y?: number, z?: number, m?: number) {
 		super();
 
-		if(typeof(x) == 'object') {
+		if(typeof(x) == 'object' && x) {
 			({ y, z, m } = x);
 			x = x.x;
 		}
