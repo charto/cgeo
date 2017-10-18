@@ -15,13 +15,14 @@ Compatible add-ons:
 
 - [cgeo-wkb](https://github.com/charto/cgeo-wkb)
 - [cgeo-wkt](https://github.com/charto/cgeo-wkt)
+- [cgeo-cpak](https://github.com/charto/cgeo-cpak)
 
 The supported data types are as follows (nesting indicates inheritance):
 
 - *Geometry*
-  - Point
+  - [Point](#point)
   - *Curve*
-    - LineString
+    - [LineString](#linestring)
     - CircularString
     - CompoundCurve
   - *Surface*
@@ -58,6 +59,29 @@ let d = new Point(b);
 
 The above initialize `b`, `c` and `d` with the same contents.
 `a` only has fields `x` and `y`.
+
+LineString
+----------
+
+Represents a polyline with coordinates stored in separate arrays for each dimension:
+- `x` (array of numbers, empty by default)
+- `y` (array of numbers, empty by default)
+- `z` (optional)
+- `m` (optional)
+
+This representation was chosen due to a compact in-memory representation
+(typically only two arrays, `x` and `y`) that also supports additional
+dimensions without complicating code that only uses the first two.
+
+It can be initialized in two ways:
+
+```TypeScript
+let a = new LineString({ x: [ 1, 3 ], y: [ 2, 4 ] });
+let b = new LineString([ { x: 1, y: 2 }, { x: 2, y: 4 } ]);
+```
+
+The above initializes `a` and `b` with equivalent contents, but only `a`
+directly references the input arrays without copying data.
 
 License
 =======
